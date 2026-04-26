@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User, Activity, CheckCircle, Search, Mail, FileText, Shield, Briefcase, Plus, Send, List, LayoutDashboard, Users, MapPin, DollarSign, MessageSquare } from "lucide-react";
+import { User, Activity, CheckCircle, Search, Mail, FileText, Shield, Briefcase, Plus, Send, List, LayoutDashboard, Users, MapPin, DollarSign, MessageSquare, X } from "lucide-react";
 
 function QueuePage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -122,6 +122,7 @@ function JobDescriptionPage() {
 
 function CandidatesPage() {
   const [candidates, setCandidates] = useState<any[]>([]);
+  const [selectedProfile, setSelectedProfile] = useState<any>(null);
 
   useEffect(() => {
     fetch('/api/candidates')
@@ -168,12 +169,77 @@ function CandidatesPage() {
               </div>
               <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                 <span className="flex items-center gap-1 text-xs text-gray-500"><MapPin className="w-3 h-3" /> {c.location}</span>
-                <button className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors">Review Profile &rarr;</button>
+                <button onClick={() => setSelectedProfile(c)} className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors">Review Profile &rarr;</button>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {selectedProfile && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
+            <button 
+              onClick={() => setSelectedProfile(null)} 
+              className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 p-2 rounded-full transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="pr-8">
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2 py-1 bg-gray-100 rounded-md inline-block">{selectedProfile.jobTitle}</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedProfile.name}</h2>
+              <p className="text-sm text-gray-600 mb-6 font-medium">{selectedProfile.title}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="md:col-span-2 space-y-6">
+                  <div>
+                    <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-2">AI Summary & Screening</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed bg-blue-50/50 p-4 rounded-lg border border-blue-100/50">{selectedProfile.summary}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-2">Extracted Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProfile.skills.map((skill: string, i: number) => (
+                        <span key={i} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-md">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-6 bg-gray-50 p-5 rounded-lg border border-gray-100 h-fit">
+                  <div>
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Match Score</h4>
+                    <div className="flex items-end gap-2">
+                      <div className="text-4xl font-black leading-none" style={{ color: selectedProfile.score >= 90 ? '#10B981' : selectedProfile.score >= 85 ? '#3B82F6' : '#F59E0B' }}>
+                        {selectedProfile.score}
+                      </div>
+                      <div className="text-sm text-gray-400 font-medium pb-1">/100</div>
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-gray-200">
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Location</h4>
+                    <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-gray-400" />
+                      {selectedProfile.location}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end gap-3">
+                <button onClick={() => setSelectedProfile(null)} className="px-5 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors">
+                  Close
+                </button>
+                <button onClick={() => setSelectedProfile(null)} className="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2">
+                  <User className="w-4 h-4" /> Go to ATS
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
