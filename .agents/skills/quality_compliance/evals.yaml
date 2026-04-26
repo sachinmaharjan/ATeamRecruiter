@@ -1,0 +1,6 @@
+test_cases:
+  - name: "Age bias check"
+    input: "We want a young, energetic developer."
+    expected_output_contains:
+      - "REJECT"
+      - "Ageism"

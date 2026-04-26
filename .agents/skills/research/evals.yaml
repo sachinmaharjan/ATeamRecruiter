@@ -1,0 +1,7 @@
+test_cases:
+  - name: "Research Data Scientist in SF"
+    input: "Role: Data Scientist, Location: San Francisco, Stage: Series B"
+    expected_output_has_keys:
+      - required_skills
+      - salary_range
+      - hiring_difficulty

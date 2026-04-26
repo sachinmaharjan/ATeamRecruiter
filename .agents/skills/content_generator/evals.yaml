@@ -1,0 +1,7 @@
+test_cases:
+  - name: "Generate scorecard"
+    input: "Generate a technical scorecard for a React Developer."
+    expected_output_contains:
+      - "Criteria"
+      - "Score (1-5)"
+      - "React"

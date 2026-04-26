@@ -1,0 +1,11 @@
+test_cases:
+  - name: "Basic Software Engineer Request"
+    input: "We need a Senior React Developer for the frontend team in NYC. Onsite 3 days a week. Urgent backfill."
+    expected_output_contains:
+      - "Seniority: Senior"
+      - "Role: React Developer"
+      - "Workflow: [Research, JD Creation, Candidate Hunt]"
+  - name: "Missing Urgency"
+    input: "Looking for a Sales Rep in London, remote."
+    expected_output_contains:
+      - "Urgency: Not specified"

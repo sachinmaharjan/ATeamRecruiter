@@ -1,0 +1,6 @@
+test_cases:
+  - name: "Find Node Engineers"
+    input: "Find Senior Node.js engineers in Austin, TX"
+    expected_output_contains:
+      - "Candidate 1"
+      - "Score:"

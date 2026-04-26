@@ -1,0 +1,6 @@
+test_cases:
+  - name: "First Touch Outreach"
+    input: "Draft a first touch for Jane Doe (Staff AI Engineer) at ACME Corp."
+    expected_output_contains:
+      - "Subject:"
+      - "Jane"

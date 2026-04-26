@@ -1,0 +1,7 @@
+test_cases:
+  - name: "Draft JD from Research"
+    input: "Intelligence: { title: Frontend Exec, skills: [React, TS] }"
+    expected_output_contains:
+      - "Responsibilities"
+      - "Requirements"
+      - "LinkedIn Version"

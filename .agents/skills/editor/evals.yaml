@@ -1,0 +1,5 @@
+test_cases:
+  - name: "Refine a raw draft"
+    input: "Draft: We are looking for a guy to code react all day it's hard work"
+    expected_output_contains:
+      - "seeking an experienced React developer"
