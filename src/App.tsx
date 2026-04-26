@@ -62,56 +62,60 @@ function QueuePage() {
 }
 
 function JobDescriptionPage() {
-  const [jd, setJd] = useState<any>(null);
+  const [jds, setJds] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/job-description')
+    fetch('/api/job-descriptions')
       .then(res => res.json())
-      .then(data => setJd(data))
+      .then(data => setJds(data))
       .catch(err => console.error(err));
   }, []);
 
-  if (!jd) return <div className="p-8 text-center text-gray-500">Loading Job Description...</div>;
+  if (jds.length === 0) return <div className="p-8 text-center text-gray-500">Loading Job Descriptions...</div>;
 
   return (
-    <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm col-span-3">
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">{jd.title}</h2>
-          <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
-            <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {jd.location}</span>
-            <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {jd.salaryRange}</span>
+    <div className="col-span-3 space-y-8">
+      {jds.map(jd => (
+        <div key={jd.id} className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm relative">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{jd.title}</h2>
+              <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {jd.location}</span>
+                <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {jd.salaryRange}</span>
+              </div>
+            </div>
+            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+              Approved by Quality Agent
+            </span>
+          </div>
+
+          <div className="space-y-8">
+            <section>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Role Summary</h3>
+              <p className="text-gray-700 leading-relaxed text-sm">{jd.summary}</p>
+            </section>
+
+            <section>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Responsibilities</h3>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                {jd.responsibilities?.map((item: string, i: number) => (
+                  <li key={i} className="pl-1 leading-relaxed">{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Requirements</h3>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                {jd.requirements?.map((item: string, i: number) => (
+                  <li key={i} className="pl-1 leading-relaxed">{item}</li>
+                ))}
+              </ul>
+            </section>
           </div>
         </div>
-        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
-          Approved by Quality Agent
-        </span>
-      </div>
-
-      <div className="space-y-8">
-        <section>
-          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Role Summary</h3>
-          <p className="text-gray-700 leading-relaxed text-sm">{jd.summary}</p>
-        </section>
-
-        <section>
-          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Responsibilities</h3>
-          <ul className="list-disc pl-5 space-y-2 text-sm text-gray-700">
-            {jd.responsibilities?.map((item: string, i: number) => (
-              <li key={i} className="pl-1 leading-relaxed">{item}</li>
-            ))}
-          </ul>
-        </section>
-
-        <section>
-          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Requirements</h3>
-          <ul className="list-disc pl-5 space-y-2 text-sm text-gray-700">
-            {jd.requirements?.map((item: string, i: number) => (
-              <li key={i} className="pl-1 leading-relaxed">{item}</li>
-            ))}
-          </ul>
-        </section>
-      </div>
+      ))}
     </div>
   );
 }
@@ -138,7 +142,8 @@ function CandidatesPage() {
           <div key={c.id} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col h-full border-t-4 hover:shadow-md transition-shadow" style={{ borderTopColor: c.score >= 90 ? '#10B981' : c.score >= 85 ? '#3B82F6' : '#F59E0B' }}>
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="font-semibold text-gray-900 text-lg">{c.name}</h3>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 px-2 py-0.5 bg-gray-100 rounded-sm inline-block">{c.jobTitle}</div>
+                <h3 className="font-semibold text-gray-900 text-lg mt-1">{c.name}</h3>
                 <p className="text-sm text-gray-500 mt-0.5 max-w-[200px] leading-tight">{c.title}</p>
               </div>
               <div className="flex flex-col items-center justify-center bg-gray-50 rounded-lg p-2 border border-gray-100 min-w[48px]">
@@ -227,6 +232,7 @@ function NudgePage() {
                 className={`w-full text-left p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors ${selectedCandidate?.id === c.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'}`}
               >
                  <div className="font-medium text-gray-900 text-sm">{c.name}</div>
+                 <div className="text-xs font-semibold text-blue-600 mt-0.5 truncate" title={c.jobTitle}>{c.jobTitle}</div>
                  <div className="text-xs text-gray-500 mt-1 truncate" title={c.title}>{c.title}</div>
               </button>
            ))}
