@@ -24,3 +24,6 @@ View your app in AI Studio: https://ai.studio/apps/84e23fb4-ce16-4597-b477-c33fa
 <img width="1212" height="757" alt="Screenshot 2026-04-26 at 4 31 24 PM" src="https://github.com/user-attachments/assets/c1571aed-7bfa-4c18-8953-ac6e767923bd" />
 <img width="1214" height="756" alt="Screenshot 2026-04-26 at 4 31 39 PM" src="https://github.com/user-attachments/assets/9594b659-0514-422e-8f7b-cd398f11cfe8" />
 <img width="1204" height="752" alt="Screenshot 2026-04-26 at 4 31 59 PM" src="https://github.com/user-attachments/assets/ecc0661c-5ebc-4b67-90c5-6094f713850c" />
+<img width="1421" height="850" alt="Screenshot 2026-04-26 at 10 01 16 PM" src="https://github.com/user-attachments/assets/9b2b011b-5f97-4664-a3d7-0c388eb7391e" />
+<img width="1436" height="901" alt="Screenshot 2026-04-26 at 10 01 27 PM" src="https://github.com/user-attachments/assets/b708df4c-8996-4433-9dc7-85bda4fd088b" />
+<img width="1477" height="910" alt="Screenshot 2026-04-26 at 10 01 42 PM" src="https://github.com/user-attachments/assets/c2a798cc-9330-4861-811a-f2ef90df1caf" />
